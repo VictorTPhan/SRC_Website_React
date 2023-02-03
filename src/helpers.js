@@ -1,4 +1,4 @@
-async function fetchDocuments() {
+export async function fetchDocuments() {
   return fetch(
     'https://raw.githubusercontent.com/SociallyResponsibleComputing/SRC_Website/main/documents/Document_Metadata.json',
   )
@@ -8,7 +8,7 @@ async function fetchDocuments() {
     })
 }
 
-function satisfiesPredicate(item, key) {
+export function satisfiesPredicate(item, key) {
   if (!key) return true
   const filename = item['filename'].toLowerCase()
   const activityTitle = item['Activity title'].toLowerCase()
@@ -22,7 +22,7 @@ function satisfiesPredicate(item, key) {
   )
 }
 
-function compareDates(a, b) {
+export function compareDates(a, b) {
   if (a.date < b.date) {
     return -1
   }
