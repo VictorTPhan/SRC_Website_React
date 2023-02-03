@@ -1,41 +1,42 @@
-import {fetchDocuments, satisfiesPredicate, compareDates} from '../helpers.js'
+import React, { useState, useEffect } from 'react';
+import { fetchDocuments, satisfiesPredicate, compareDates } from '../helpers';
 
 async function getJson() {
-  const documents = await fetchDocuments()
+  const documents = await fetchDocuments();
 
   return documents
-    .filter(item => satisfiesPredicate(item, ''))
+    .filter((item) => satisfiesPredicate(item, ''))
     .sort(compareDates)
-    .map((element, idx) => {
-      //let title = document.createTextNode(`File ${idx}`)
-      //json.appendChild(title)
-      //let ul = document.createElement('ul')
-      return (
-        <ui>
-          {Object.keys(element).map((keyname, i) => {
-            return (
-              <li>
-                `${keyname}: ${element[keyname]}`
-              </li>
-            )
-          })}
-        </ui>
-      )
-    })
+    .map((element, idx) => (
+      <ui>
+        {Object.keys(element).map((keyname, i) => (
+          <li>
+            `$
+            {keyname}
+            : $
+            {element[keyname]}
+            `
+          </li>
+        ))}
+      </ui>
+    ));
 }
 
 function DocEntries() {
+  const [documents, setDocuments] = useState();
+
+  useEffect(() => {}, []);
   return (
     <div id="json" style={style}>
-      <div></div>
+      <div />
       {getJson}
     </div>
-  )
+  );
 }
 
 let style = {
   whiteSpace: 'pre-line',
   textAlign: 'left',
-}
+};
 
-export default DocEntries
+export default DocEntries;
