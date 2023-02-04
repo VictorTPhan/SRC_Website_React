@@ -11,11 +11,13 @@ async function getJson() {
     .map((element, i) => (
       <ul key={uuid()}>
         <p style={{marginTop: 10}}>File {i}</p>
-        {Object.keys(element).map(keyname => (
-          <li key={uuid()}>
-            {keyname}: {element[keyname]}
-          </li>
-        ))}
+        {Object.keys(element)
+          .splice(0, 2)
+          .map(keyname => (
+            <li key={uuid()}>
+              {keyname}: {element[keyname]}
+            </li>
+          ))}
       </ul>
     ))
 }
