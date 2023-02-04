@@ -42,12 +42,14 @@ function displayJson(jsonObj, key) {
       const title = document.createTextNode(`File ${idx}`)
       json.appendChild(title)
       const ul = document.createElement('ul')
-      for (const key in element) {
+      Object.keys(element).forEach(property => {
         const entry = document.createElement('li')
-        const textNode = document.createTextNode(`${key}: ${element[key]}`)
+        const textNode = document.createTextNode(
+          `${property}: ${element[property]}`,
+        )
         entry.appendChild(textNode)
         ul.appendChild(entry)
-      }
+      })
       json.appendChild(ul)
     })
   return json

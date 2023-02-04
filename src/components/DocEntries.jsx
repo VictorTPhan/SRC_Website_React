@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {fetchDocuments, satisfiesPredicate, compareDates} from '../helpers'
 
 async function getJson() {
@@ -7,9 +7,9 @@ async function getJson() {
   return documents
     .filter(item => satisfiesPredicate(item, ''))
     .sort(compareDates)
-    .map((element, idx) => (
+    .map(element => (
       <ui>
-        {Object.keys(element).map((keyname, i) => (
+        {Object.keys(element).map(keyname => (
           <li>
             `$
             {keyname}: ${element[keyname]}`
@@ -22,11 +22,13 @@ async function getJson() {
 function DocEntries() {
   const [documents, setDocuments] = useState()
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    getJson().then(res => setDocuments(res))
+  }, [])
   return (
     <div id="json" style={style}>
       <div />
-      {getJson}
+      {documents}
     </div>
   )
 }

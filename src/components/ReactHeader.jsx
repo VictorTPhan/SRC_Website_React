@@ -1,4 +1,5 @@
-import logo from '../logo.svg';
+import React from 'react'
+import logo from '../logo.svg'
 
 function ReactHeader() {
   return (
@@ -9,11 +10,10 @@ function ReactHeader() {
         className="App-link"
         href="https://reactjs.org"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         Learn React
       </a>
     </header>
   )
 }
-export default ReactHeader;
+export default ReactHeader
