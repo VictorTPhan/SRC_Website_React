@@ -59,7 +59,6 @@ async function main() {
   const documents = await fetchDocuments()
   const json = displayJson(documents, '')
   document.getElementById('search-input').addEventListener('input', event => {
-    console.log('changing')
     json.innerHTML = ''
     displayJson(documents, event.target.value)
   })

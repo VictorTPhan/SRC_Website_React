@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import {v4 as uuid} from 'uuid'
 import {fetchDocuments, satisfiesPredicate, compareDates} from '../helpers'
 
 async function getJson() {
@@ -7,15 +8,15 @@ async function getJson() {
   return documents
     .filter(item => satisfiesPredicate(item, ''))
     .sort(compareDates)
-    .map(element => (
-      <ui>
+    .map((element, i) => (
+      <ul key={uuid()}>
+        <p style={{marginTop: 10}}>File {i}</p>
         {Object.keys(element).map(keyname => (
-          <li>
-            `$
-            {keyname}: ${element[keyname]}`
+          <li key={uuid()}>
+            {keyname}: {element[keyname]}
           </li>
         ))}
-      </ui>
+      </ul>
     ))
 }
 

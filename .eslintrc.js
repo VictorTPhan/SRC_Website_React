@@ -14,5 +14,6 @@ module.exports = {
     'no-console': 1, // Means warning
     'prettier/prettier': 2, // Means error
     'no-use-before-define': 'off',
+    'import/no-extraneous-dependencies': ['error', {devDependencies: true}],
   },
 }
