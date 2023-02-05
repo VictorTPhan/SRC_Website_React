@@ -37,3 +37,8 @@
     transform: rotate(360deg);
   }
 }
+
+.Activity-title {
+  margin-top: 10;
+  margin-bottom: 0;
+}

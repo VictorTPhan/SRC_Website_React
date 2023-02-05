@@ -1,4 +1,5 @@
 import {v4 as uuid} from 'uuid'
+import Button from 'react-bootstrap/Button'
 import React from 'react'
 
 export async function fetchDocuments() {
@@ -33,56 +34,27 @@ export function compareDates(a, b) {
   return 0
 }
 
+/**
+ * @param {Array} documents The json object
+ */
 export function listDocs(documents, key) {
   return documents
     .filter(item => satisfiesKey(item, key))
     .sort(compareDates)
     .map((element, i) => (
       <ul key={uuid()}>
-        <p style={{marginTop: 10}}>File {i}</p>
-        {Object.keys(element)
-          .splice(0, 2)
-          .map(keyname => (
-            <li key={uuid()}>
-              {keyname}: {element[keyname]}
-            </li>
-          ))}
+        <Button className="Activity-title">{element['Activity title']}</Button>
+        {jsonToUl(element)}
       </ul>
     ))
 }
 
-/**
- * @param {Array} jsonObj The json object
- */
-function displayJson(jsonObj, key) {
-  const json = document.getElementById('json')
-  jsonObj
-    .filter(item => satisfiesKey(item, key))
-    .sort(compareDates)
-    .forEach((element, idx) => {
-      const title = document.createTextNode(`File ${idx}`)
-      json.appendChild(title)
-      const ul = document.createElement('ul')
-      Object.keys(element).forEach(property => {
-        const entry = document.createElement('li')
-        const textNode = document.createTextNode(
-          `${property}: ${element[property]}`,
-        )
-        entry.appendChild(textNode)
-        ul.appendChild(entry)
-      })
-      json.appendChild(ul)
-    })
-  return json
+function jsonToUl(json) {
+  return Object.keys(json)
+    .splice(0, 2)
+    .map(keyname => (
+      <li key={uuid()}>
+        {keyname}: {json[keyname]}
+      </li>
+    ))
 }
-
-async function main() {
-  const documents = await fetchDocuments()
-  const json = displayJson(documents, '')
-  document.getElementById('search-input').addEventListener('input', event => {
-    json.innerHTML = ''
-    displayJson(documents, event.target.value)
-  })
-}
-
-export default main

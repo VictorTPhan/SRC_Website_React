@@ -1,27 +1,20 @@
-import React, {useEffect, useState} from 'react'
-import ReactHeader from './components/ReactHeader'
-import MainHeader from './components/MainHeader'
-import DocEntries from './components/DocEntries'
-import {fetchDocuments} from './helpers'
+import React from 'react'
 import './App.css'
-import SearchBar from './components/SearchBar'
+import {
+  BrowserRouter as Router,
+  Routes as Switch,
+  Route,
+} from 'react-router-dom'
+import Home from './components/Home'
 
 function App() {
-  const [state, setState] = useState({docs: ['uninitialized'], filterKey: ''})
-
-  useEffect(() => {
-    fetchDocuments().then(docs => {
-      setState(prevState => ({...prevState, docs}))
-    })
-  }, [])
-
   return (
-    <div className="App">
-      <ReactHeader />
-      <MainHeader />
-      <SearchBar setState={setState} />
-      <DocEntries entries={state.docs} filterKey={state.filterKey} />
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" element={<Home />} />
+        <Route path="/test" element={<>test</>} />
+      </Switch>
+    </Router>
   )
 }
 
