@@ -15,5 +15,6 @@ module.exports = {
     'prettier/prettier': 2, // Means error
     'no-use-before-define': 'off',
     'import/no-extraneous-dependencies': ['error', {devDependencies: true}],
+    'no-unused-vars': ['warn', {varsIgnorePattern: 'VARIABLE_NAME'}],
   },
 }

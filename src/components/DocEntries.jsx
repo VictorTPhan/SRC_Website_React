@@ -1,33 +1,14 @@
 import React, {useEffect, useState} from 'react'
-import {v4 as uuid} from 'uuid'
-import {fetchDocuments, satisfiesPredicate, compareDates} from '../helpers'
+import PropTypes from 'prop-types'
+import {listDocs} from '../helpers'
 
-async function getJson() {
-  const documents = await fetchDocuments()
-
-  return documents
-    .filter(item => satisfiesPredicate(item, ''))
-    .sort(compareDates)
-    .map((element, i) => (
-      <ul key={uuid()}>
-        <p style={{marginTop: 10}}>File {i}</p>
-        {Object.keys(element)
-          .splice(0, 2)
-          .map(keyname => (
-            <li key={uuid()}>
-              {keyname}: {element[keyname]}
-            </li>
-          ))}
-      </ul>
-    ))
-}
-
-function DocEntries() {
+function DocEntries({entries, filterKey}) {
   const [documents, setDocuments] = useState()
 
   useEffect(() => {
-    getJson().then(res => setDocuments(res))
-  }, [])
+    setDocuments(listDocs(entries, filterKey))
+  }, [entries, filterKey])
+
   return (
     <div id="json" style={style}>
       <div />
@@ -39,6 +20,11 @@ function DocEntries() {
 let style = {
   whiteSpace: 'pre-line',
   textAlign: 'left',
+}
+
+DocEntries.propTypes = {
+  entries: PropTypes.array, // eslint-disable-line
+  filterKey: PropTypes.string, // eslint-disable-line
 }
 
 export default DocEntries

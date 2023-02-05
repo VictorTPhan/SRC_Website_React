@@ -1,3 +1,6 @@
+import {v4 as uuid} from 'uuid'
+import React from 'react'
+
 export async function fetchDocuments() {
   return fetch(
     'https://raw.githubusercontent.com/SociallyResponsibleComputing/SRC_Website/main/documents/Document_Metadata.json',
@@ -6,7 +9,7 @@ export async function fetchDocuments() {
     .then(data => JSON.parse(data))
 }
 
-export function satisfiesPredicate(item, key) {
+export function satisfiesKey(item, key) {
   if (!key) return true
   const filename = item.filename.toLowerCase()
   const activityTitle = item['Activity title'].toLowerCase()
@@ -30,13 +33,31 @@ export function compareDates(a, b) {
   return 0
 }
 
+export function listDocs(documents, key) {
+  return documents
+    .filter(item => satisfiesKey(item, key))
+    .sort(compareDates)
+    .map((element, i) => (
+      <ul key={uuid()}>
+        <p style={{marginTop: 10}}>File {i}</p>
+        {Object.keys(element)
+          .splice(0, 2)
+          .map(keyname => (
+            <li key={uuid()}>
+              {keyname}: {element[keyname]}
+            </li>
+          ))}
+      </ul>
+    ))
+}
+
 /**
  * @param {Array} jsonObj The json object
  */
 function displayJson(jsonObj, key) {
   const json = document.getElementById('json')
   jsonObj
-    .filter(item => satisfiesPredicate(item, key))
+    .filter(item => satisfiesKey(item, key))
     .sort(compareDates)
     .forEach((element, idx) => {
       const title = document.createTextNode(`File ${idx}`)
