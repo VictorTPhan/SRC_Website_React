@@ -12,8 +12,8 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/" element={<Home />} />
-        <Route path="/entry" element={<DocumentView />} />
+        <Route path="/SRC_Website_React" element={<Home />} />
+        <Route path="/SRC_Website_React/entry" element={<DocumentView />} />
         <Route path="/test" element={<>test</>} />
       </Switch>
     </Router>

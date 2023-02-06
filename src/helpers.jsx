@@ -44,7 +44,10 @@ export function listDocs(documents, key, numEntries) {
     .sort(compareDates)
     .map(element => (
       <ul key={uuid()}>
-        <Link to="/entry" state={{element}} className="Activity-title">
+        <Link
+          to="/SRC_Website_React/entry"
+          state={{element}}
+          className="Activity-title">
           <Button>{element['Activity title']}</Button>
         </Link>
         {jsonToUl(element, numEntries)}
