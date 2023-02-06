@@ -6,12 +6,14 @@ import {
   Route,
 } from 'react-router-dom'
 import Home from './components/Home'
+import DocumentView from './components/DocumentView'
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route path="/" element={<Home />} />
+        <Route path="/entry" element={<DocumentView />} />
         <Route path="/test" element={<>test</>} />
       </Switch>
     </Router>

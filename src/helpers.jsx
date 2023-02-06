@@ -1,5 +1,6 @@
 import {v4 as uuid} from 'uuid'
 import Button from 'react-bootstrap/Button'
+import {Link} from 'react-router-dom'
 import React from 'react'
 
 export async function fetchDocuments() {
@@ -37,21 +38,23 @@ export function compareDates(a, b) {
 /**
  * @param {Array} documents The json object
  */
-export function listDocs(documents, key) {
+export function listDocs(documents, key, numEntries) {
   return documents
     .filter(item => satisfiesKey(item, key))
     .sort(compareDates)
-    .map((element, i) => (
+    .map(element => (
       <ul key={uuid()}>
-        <Button className="Activity-title">{element['Activity title']}</Button>
-        {jsonToUl(element)}
+        <Link to="/entry" state={{element}} className="Activity-title">
+          <Button>{element['Activity title']}</Button>
+        </Link>
+        {jsonToUl(element, numEntries)}
       </ul>
     ))
 }
 
-function jsonToUl(json) {
+export function jsonToUl(json, numEntries) {
   return Object.keys(json)
-    .splice(0, 2)
+    .splice(0, numEntries || Object.keys(json).length)
     .map(keyname => (
       <li key={uuid()}>
         {keyname}: {json[keyname]}

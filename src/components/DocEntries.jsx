@@ -6,7 +6,7 @@ function DocEntries({entries, filterKey}) {
   const [documents, setDocuments] = useState()
 
   useEffect(() => {
-    setDocuments(listDocs(entries, filterKey))
+    setDocuments(listDocs(entries, filterKey, 2))
   }, [entries, filterKey])
 
   return (
