@@ -1,25 +1,26 @@
 import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 import {listDocs} from '../helpers'
 
 function DocEntries({entries, filterKey}) {
   const [documents, setDocuments] = useState()
 
   useEffect(() => {
-    setDocuments(listDocs(entries, filterKey, 2))
+    const docComponents = listDocs(entries, filterKey, 2)
+    // setDocuments(listDocs(entries, filterKey, 2))
+    setDocuments(docComponents)
   }, [entries, filterKey])
 
   return (
-    <div id="json" style={style}>
+    <div className="json">
       <div />
-      {documents}
+      <Container>
+        <Row>{documents}</Row>
+      </Container>
     </div>
   )
-}
-
-let style = {
-  whiteSpace: 'pre-line',
-  textAlign: 'left',
 }
 
 DocEntries.propTypes = {

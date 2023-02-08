@@ -42,3 +42,9 @@
   margin-top: 10;
   margin-bottom: 0;
 }
+
+.json {
+  display: flex;
+  justify-content: center;
+
+}

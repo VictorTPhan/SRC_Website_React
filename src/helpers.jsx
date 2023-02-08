@@ -1,7 +1,10 @@
 import {v4 as uuid} from 'uuid'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
-import {Link} from 'react-router-dom'
 import React from 'react'
+import DocCard from './components/DocCard'
 
 export async function fetchDocuments() {
   return fetch(
@@ -35,32 +38,11 @@ export function compareDates(a, b) {
   return 0
 }
 
-/**
- * @param {Array} documents The json object
- */
-export function listDocs(documents, key, numEntries) {
+export function listDocs(documents, key, limitAttr) {
   return documents
     .filter(item => satisfiesKey(item, key))
     .sort(compareDates)
-    .map(element => (
-      <ul key={uuid()}>
-        <Link
-          to="/SRC_Website_React/entry"
-          state={{element}}
-          className="Activity-title">
-          <Button>{element['Activity title']}</Button>
-        </Link>
-        {jsonToUl(element, numEntries)}
-      </ul>
-    ))
-}
-
-export function jsonToUl(json, numEntries) {
-  return Object.keys(json)
-    .splice(0, numEntries || Object.keys(json).length)
-    .map(keyname => (
-      <li key={uuid()}>
-        {keyname}: {json[keyname]}
-      </li>
+    .map((element, idx) => (
+      <DocCard key={uuid()} element={element} limitAttr={limitAttr} />
     ))
 }
