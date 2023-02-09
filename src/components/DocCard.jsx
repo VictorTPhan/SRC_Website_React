@@ -3,7 +3,7 @@ import {Card} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ListGroup from 'react-bootstrap/ListGroup'
-import {jsonToUl} from '../helpers2'
+import {homePageJson} from '../helpers2'
 
 function DocCard({element, limitAttr}) {
   return (
@@ -17,7 +17,7 @@ function DocCard({element, limitAttr}) {
           <Card.Body>
             <ListGroup variant="flush">
               <Card.Title>{element['Activity title']}</Card.Title>
-              {jsonToUl(element, limitAttr)}
+              {homePageJson(element)}
             </ListGroup>
           </Card.Body>
         </Card>

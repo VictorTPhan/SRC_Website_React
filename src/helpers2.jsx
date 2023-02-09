@@ -12,4 +12,21 @@ export function jsonToUl(json, limitAttr) {
     ))
 }
 
+export function homePageJson(json) {
+  return (
+    <>
+      <ListGroup.Item key={uuid()}>
+        <b>Filename:</b> {json.filename}
+      </ListGroup.Item>
+      <ListGroup.Item key={uuid()}>
+        <b>Contributor email:</b> {json['Contributor (email)']}
+      </ListGroup.Item>
+      <ListGroup.Item key={uuid()}>
+        <b>Description:</b>
+        {json.Description}
+      </ListGroup.Item>
+    </>
+  )
+}
+
 export default jsonToUl
