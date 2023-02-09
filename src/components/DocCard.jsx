@@ -25,7 +25,7 @@ function DocCard({element, limitAttr}) {
           className="mask"
           style={{
             background:
-              'linear-gradient(45deg, rgba(29, 236, 197, 0.1), rgba(91, 14, 214, 0.1) 100%)',
+              'linear-gradient(45deg, rgba(29, 236, 197, 0.05), rgba(91, 14, 214, 0.05) 100%)',
           }}
         />
       </Link>
