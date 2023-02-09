@@ -5,20 +5,10 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import {jsonToUl} from '../helpers2'
 
 function getUrl(filename) {
-  return `https://github.com/SociallyResponsibleComputing/SRC_Website_React/blob/main/documents/${encodeURI(
+  return `https://github.com/SociallyResponsibleComputing/SRC_Website_React/raw/main/documents/${encodeURI(
     filename,
-  )}?raw=true`
+  )}`
 }
-
-/*
-async function fetchDocuments(filename) {
-  return fetch(
-    `https://github.com/SociallyResponsibleComputing/SRC_Website_React/blob/main/documents/${encodeURI(
-  )
-    .then(res => res.blob())
-    .then(blob => blob)
-}
-*/
 
 function DocumentView() {
   const document = useLocation().state.element
