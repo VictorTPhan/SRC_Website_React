@@ -4,7 +4,7 @@ import DocCard from './components/DocCard'
 
 export async function fetchDocuments() {
   return fetch(
-    'https://raw.githubusercontent.com/SociallyResponsibleComputing/SRC_Website/main/documents/Document_Metadata.json',
+    'https://raw.githubusercontent.com/SociallyResponsibleComputing/SRC_Website_React/main/documents/Document_Metadata.json',
   )
     .then(response => response.text())
     .then(data => JSON.parse(data))
