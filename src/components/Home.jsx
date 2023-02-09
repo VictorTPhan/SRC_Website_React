@@ -19,7 +19,6 @@ function Home() {
 
   return (
     <div className="App">
-      <ReactHeader />
       <MainHeader />
       <SearchBar setState={setState} />
       <DocEntries entries={state.docs} filterKey={state.filterKey} />
