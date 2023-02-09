@@ -3,6 +3,7 @@ import {Card} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {v4 as uuid} from 'uuid'
+import ListGroup from 'react-bootstrap/ListGroup'
 import {jsonToUl} from '../helpers2'
 
 function DocCard({element, limitAttr}) {
@@ -14,10 +15,10 @@ function DocCard({element, limitAttr}) {
       style={{textDecoration: 'none'}}>
       <Card>
         <Card.Body>
-          <ul key={uuid()}>
+          <ListGroup variant="flush">
             <Card.Title>{element['Activity title']}</Card.Title>
             {jsonToUl(element, limitAttr)}
-          </ul>
+          </ListGroup>
         </Card.Body>
       </Card>
     </Link>

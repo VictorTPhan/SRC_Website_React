@@ -39,7 +39,7 @@ export function listDocs(documents, key, limitAttr) {
   return documents
     .filter(item => satisfiesKey(item, key))
     .sort(compareDates)
-    .map((element, idx) => (
+    .map(element => (
       <DocCard key={uuid()} element={element} limitAttr={limitAttr} />
     ))
 }
