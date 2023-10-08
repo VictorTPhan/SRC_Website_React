@@ -84,7 +84,13 @@ class _DisplayPageState extends State<DisplayPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Socially Responsible Computing Curriculum Viewer"),
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(
+            "Socially Responsible Computing Curriculum Viewer",
+            style: TextStyle(
+              color: Colors.white
+            ),
+        ),
       ),
       body: Column(
         children: [
@@ -93,6 +99,7 @@ class _DisplayPageState extends State<DisplayPage> {
               Expanded(
                 flex: topRowTextFieldFlex,
                 child: TextField(
+                  decoration: InputDecoration(labelText: "Query"),
                   controller: filterQuery,
                 )
               ),
@@ -105,24 +112,25 @@ class _DisplayPageState extends State<DisplayPage> {
                       value: filterField,
                       icon: const Icon(Icons.arrow_downward),
                       elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
                       onChanged: (String? value) {
-                        filterField = value!;
+                        setState(() {
+                          filterField = value;
+                        });
                       },
-                      items: LessonEntryLabel.allLabels.map<DropdownMenuItem<String>>((dynamic value) {
+                      items:
+                      [
+                        DropdownMenuItem<String>(
+                          value: null,
+                          child: Text("No Filter"),
+                        )
+                      ] +
+                      LessonEntryLabel.allLabels.map<DropdownMenuItem<String>>((dynamic value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
                         );
                       }).toList(),
                     ),
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                          });
-                        },
-                        icon: Icon(Icons.search)
-                    )
                   ],
                 )
               )

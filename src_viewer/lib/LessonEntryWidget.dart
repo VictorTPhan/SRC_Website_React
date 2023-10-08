@@ -67,7 +67,7 @@ class LessonEntryWidget extends StatelessWidget {
                   fontWeight: FontWeight.bold
               ),
             ),
-            Text(entry.csTopic),
+            Text(entry.csTopic, overflow: TextOverflow.ellipsis,),
             Text(entry.description, overflow: TextOverflow.ellipsis,),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -78,13 +78,30 @@ class LessonEntryWidget extends StatelessWidget {
                       onPressed: () {
                         ShowDialog(context);
                       },
-                      child: Text("See Info")
+                      child: Text(
+                          "See Info",
+                          style: TextStyle(
+                            color: Colors.white
+                          ),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith((states) => Theme.of(context).primaryColor)
+                      ),
                   ),
+                  SizedBox(width: 10,), //To space them out
                   ElevatedButton(
                       onPressed: () {
                         html.window.open(entry.fileSubmission, "Download");
                       },
-                      child: Text("Download")
+                      child: Text(
+                          "Download",
+                          style: TextStyle(
+                              color: Colors.white
+                          ),
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateColor.resolveWith((states) => Theme.of(context).primaryColor)
+                      ),
                   ),
                 ],
               ),

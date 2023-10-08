@@ -33,7 +33,7 @@ class LessonEntryDetailWidget extends StatelessWidget {
     List<DataRow> rows = [];
     for(String label in info.keys) {
       rows.add(DataRow(cells: [
-        DataCell(Text(label)),
+        DataCell(Text(label, style: TextStyle(fontWeight: FontWeight.bold))),
         DataCell(Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(info[label]),
@@ -44,8 +44,8 @@ class LessonEntryDetailWidget extends StatelessWidget {
     return DataTable(
         dataRowMaxHeight: double.infinity,
         columns: [
-          DataColumn(label: Text("Field", style: TextStyle(fontWeight: FontWeight.bold),)),
-          DataColumn(label: Text("Response", style: TextStyle(fontWeight: FontWeight.bold)))
+          DataColumn(label: Text("Field", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)),
+          DataColumn(label: Text("Response", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)))
         ],
         rows: rows
     );
@@ -58,7 +58,10 @@ class LessonEntryDetailWidget extends StatelessWidget {
         children: [
           Text(
             entry.activity,
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 25
+            ),
           ),
           Text(
             "by ${entry.contributorName}\t(${entry.contributorEmail})",
