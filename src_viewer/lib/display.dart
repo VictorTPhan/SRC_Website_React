@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:html' as html;
@@ -15,7 +16,6 @@ class DisplayPage extends StatefulWidget {
 
 class _DisplayPageState extends State<DisplayPage> {
   var fetchResponse;
-  String? filterField = null;
   TextEditingController filterQuery = TextEditingController();
 
   Future<String> _fetchSubmissions() async {
@@ -79,8 +79,8 @@ class _DisplayPageState extends State<DisplayPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(filterField.toString() + " " + filterQuery.text + "|");
-    int topRowTextFieldFlex = 60;
+    int delayMilliSeconds = 75;
+    int currentDelay = 0;
 
     return Scaffold(
       appBar: AppBar(
@@ -97,43 +97,16 @@ class _DisplayPageState extends State<DisplayPage> {
           Row(
             children: [
               Expanded(
-                flex: topRowTextFieldFlex,
                 child: TextField(
                   decoration: InputDecoration(labelText: "Query"),
                   controller: filterQuery,
+                  onChanged: (String entry) {
+                    setState(() {
+
+                    });
+                  },
                 )
               ),
-              Expanded(
-                flex: 100-topRowTextFieldFlex,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    DropdownButton<String>(
-                      value: filterField,
-                      icon: const Icon(Icons.arrow_downward),
-                      elevation: 16,
-                      onChanged: (String? value) {
-                        setState(() {
-                          filterField = value;
-                        });
-                      },
-                      items:
-                      [
-                        DropdownMenuItem<String>(
-                          value: null,
-                          child: Text("No Filter"),
-                        )
-                      ] +
-                      LessonEntryLabel.allLabels.map<DropdownMenuItem<String>>((dynamic value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                )
-              )
             ],
           ),
           Expanded(
@@ -148,13 +121,20 @@ class _DisplayPageState extends State<DisplayPage> {
                       itemCount: entries.length,
                       itemBuilder: (BuildContext context, int index) {
                         //can we perform an actual filter?
-                        if (filterField != null && filterQuery.text.isNotEmpty && !entries[index].matchesQuery(filterField!, filterQuery.text)) {
+                        if (filterQuery.text.isNotEmpty && !entries[index].matchesQuery(filterQuery.text)) {
                           print("Filtered out");
                           return SizedBox.shrink();
                         }
                         else {
                           print("Not filtered out");
-                          return LessonEntryWidget(entry: entries[index]);
+                          currentDelay+=delayMilliSeconds;
+                          return FadeInLeft(
+                              delay: Duration(milliseconds: currentDelay),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 15, left: 15, right: 1),
+                                child: LessonEntryWidget(entry: entries[index]),
+                              )
+                          );
                         }
                       },
                     );

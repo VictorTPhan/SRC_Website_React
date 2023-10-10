@@ -49,84 +49,12 @@ class LessonEntry {
     required this.fileSubmission
   });
 
-  bool matchesQuery(String field, String query) {
-    String? fieldData = null;
-    switch(field) {
-      case LessonEntryLabel.timeStamp:
-        fieldData = timeStamp;
-        break;
-      case LessonEntryLabel.activity:
-        fieldData = activity;
-        break;
-      case LessonEntryLabel.contributorEmail:
-        fieldData = contributorEmail;
-        break;
-      case LessonEntryLabel.contributorName:
-        fieldData = contributorName;
-        break;
-      case LessonEntryLabel.description:
-        fieldData = description;
-        break;
-      case LessonEntryLabel.type:
-        fieldData = type;
-        break;
-      case LessonEntryLabel.series:
-        fieldData = series;
-        break;
-      case LessonEntryLabel.societalFactor:
-        fieldData = societalFactor;
-        break;
-      case LessonEntryLabel.courseLevel:
-        fieldData = courseLevel;
-        break;
-      case LessonEntryLabel.csTopic:
-        fieldData = csTopic;
-        break;
-      case LessonEntryLabel.programmingLanguage:
-        fieldData = programmingLanguage;
-        break;
-      case LessonEntryLabel.prereqKnowledge:
-        fieldData = prereqKnowledge;
-        break;
-      case LessonEntryLabel.criticalComponents:
-        fieldData = criticalComponents;
-        break;
-      case LessonEntryLabel.learningObjectives:
-        fieldData = learningObjectives;
-        break;
-      case LessonEntryLabel.preReading:
-        fieldData = preReading;
-        break;
-      case LessonEntryLabel.timelimeOfActivities:
-        fieldData = timelimeOfActivities;
-        break;
-      case LessonEntryLabel.reflectionActivities:
-        fieldData = reflectionActivities;
-        break;
-      case LessonEntryLabel.effectiveTeachingMethods:
-        fieldData = effectiveTeachingMethods;
-        break;
-      case LessonEntryLabel.suggestedReadingMaterials:
-        fieldData = suggestedReadingMaterials;
-        break;
-      case LessonEntryLabel.issuesAndSolutions:
-        fieldData = issuesAndSolutions;
-        break;
-      case LessonEntryLabel.referencesForInstructor:
-        fieldData = referencesForInstructor;
-        break;
-      case LessonEntryLabel.fileSubmission:
-        fieldData = fileSubmission;
-        break;
-    }
-
-    print("FIELD DATA :" + fieldData.toString() + " " + query);
-
-    if (fieldData == null) {
-      return true;
-    } else {
-      return fieldData.toLowerCase().contains(query);
-    }
+  bool matchesQuery(String query) {
+    String combined = timeStamp + activity + contributorEmail + contributorName + description
+        + type + series + societalFactor + courseLevel + csTopic + programmingLanguage
+        + prereqKnowledge + criticalComponents + learningObjectives + preReading + timelimeOfActivities
+        + effectiveTeachingMethods + suggestedReadingMaterials + issuesAndSolutions + referencesForInstructor + fileSubmission;
+    return combined.toLowerCase().contains(query.toLowerCase());
   }
 
   factory LessonEntry.fromMap(Map<String, dynamic> map) {

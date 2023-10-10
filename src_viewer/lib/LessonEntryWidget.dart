@@ -1,114 +1,87 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:animate_on_hover/animate_on_hover.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'dart:html' as html;
 import 'package:src_viewer/LessonEntry.dart';
 import 'package:src_viewer/LessonEntryDetailWidget.dart';
+import 'dart:html' as html;
 
 class LessonEntryWidget extends StatelessWidget {
   LessonEntry entry;
-
   LessonEntryWidget({super.key, required this.entry});
+  int currentDelay = 0;
 
-  void ShowDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius:
-                BorderRadius.circular(20.0)),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    LessonEntryDetailWidget(entry: entry),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text("Go Back")
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              html.window.open(entry.fileSubmission, "Download");
-                            },
-                            child: Text("Download")
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        });
+  int increaseCurrentDelay(int byMilliSeconds) {
+    return currentDelay+=byMilliSeconds;
+  }
+
+  Widget getFadeInDelayWidget(int delay, Widget child) {
+    return FadeIn(
+        delay: Duration(milliseconds: increaseCurrentDelay(delay)),
+        child: child
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text(
-              entry.activity,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            Text(
-              "by ${entry.contributorName}\t(${entry.contributorEmail})",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold
+    int delayMilliSeconds = 200;
+
+    return InkWell(
+      onTap: () {
+        AwesomeDialog(
+          context: context,
+          animType: AnimType.leftSlide,
+          dialogType: DialogType.noHeader,
+          body: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: LessonEntryDetailWidget(entry: entry),
+          ),
+          btnOkText: "Download",
+          btnOkIcon: Icons.download,
+          btnOkOnPress: () {
+            html.window.open(entry.fileSubmission, "Download");
+          },
+          btnCancelText: "Back",
+          btnCancelColor: Colors.grey,
+          btnCancelIcon: Icons.arrow_back,
+          btnCancelOnPress: () {
+
+          }
+        ).show();
+      },
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              getFadeInDelayWidget(
+                delayMilliSeconds,
+                Text(
+                  entry.activity,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
               ),
-            ),
-            Text(entry.csTopic, overflow: TextOverflow.ellipsis,),
-            Text(entry.description, overflow: TextOverflow.ellipsis,),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        ShowDialog(context);
-                      },
-                      child: Text(
-                          "See Info",
-                          style: TextStyle(
-                            color: Colors.white
-                          ),
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateColor.resolveWith((states) => Theme.of(context).primaryColor)
-                      ),
+              getFadeInDelayWidget(
+                delayMilliSeconds,
+                Text(
+                  "by ${entry.contributorName}\t(${entry.contributorEmail})",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold
                   ),
-                  SizedBox(width: 10,), //To space them out
-                  ElevatedButton(
-                      onPressed: () {
-                        html.window.open(entry.fileSubmission, "Download");
-                      },
-                      child: Text(
-                          "Download",
-                          style: TextStyle(
-                              color: Colors.white
-                          ),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateColor.resolveWith((states) => Theme.of(context).primaryColor)
-                      ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+              getFadeInDelayWidget(
+                delayMilliSeconds,
+                Text(entry.csTopic, overflow: TextOverflow.ellipsis,)
+              ),
+              getFadeInDelayWidget(
+                delayMilliSeconds,
+                Text(entry.description, overflow: TextOverflow.ellipsis,)
+              ),
+            ],
+          ),
         ),
-      ),
+      ).increaseSizeOnHover(1.05, duration: Duration(milliseconds: 150)),
     );
   }
 }

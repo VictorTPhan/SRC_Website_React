@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import 'package:src_viewer/LessonEntry.dart';
@@ -14,31 +15,44 @@ class LessonEntryDetailWidget extends StatelessWidget {
       LessonEntryLabel.timeStamp: entry.timeStamp,
       LessonEntryLabel.type: entry.type,
       LessonEntryLabel.series: entry.series,
-      LessonEntryLabel.societalFactor: entry.societalFactor,
       LessonEntryLabel.courseLevel: entry.courseLevel,
       LessonEntryLabel.csTopic: entry.csTopic,
       LessonEntryLabel.programmingLanguage: entry.programmingLanguage,
-      LessonEntryLabel.prereqKnowledge: entry.prereqKnowledge,
-      LessonEntryLabel.criticalComponents: entry.criticalComponents,
+      LessonEntryLabel.societalFactor: entry.societalFactor,
       LessonEntryLabel.learningObjectives: entry.learningObjectives,
       LessonEntryLabel.preReading: entry.preReading,
+      LessonEntryLabel.suggestedReadingMaterials: entry.suggestedReadingMaterials,
+      LessonEntryLabel.prereqKnowledge: entry.prereqKnowledge,
+      LessonEntryLabel.criticalComponents: entry.criticalComponents,
       LessonEntryLabel.timelimeOfActivities: entry.timelimeOfActivities,
       LessonEntryLabel.reflectionActivities: entry.reflectionActivities,
       LessonEntryLabel.effectiveTeachingMethods: entry.effectiveTeachingMethods,
-      LessonEntryLabel.suggestedReadingMaterials: entry.suggestedReadingMaterials,
       LessonEntryLabel.issuesAndSolutions: entry.issuesAndSolutions,
       LessonEntryLabel.referencesForInstructor: entry.referencesForInstructor
     };
 
     List<DataRow> rows = [];
+    int delayMilliSeconds = 75;
+    int currentDelay = 0;
     for(String label in info.keys) {
       rows.add(DataRow(cells: [
-        DataCell(Text(label, style: TextStyle(fontWeight: FontWeight.bold))),
-        DataCell(Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(info[label]),
-        ))
+        DataCell(
+            FadeInLeft(
+                delay: Duration(milliseconds: currentDelay),
+                child: Text(label, style: TextStyle(fontWeight: FontWeight.bold))
+            )
+        ),
+        DataCell(
+            FadeInLeft(
+                delay: Duration(milliseconds: currentDelay),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(info[label]),
+                ),
+            )
+        )
       ]));
+      currentDelay+=delayMilliSeconds;
     }
 
     return DataTable(

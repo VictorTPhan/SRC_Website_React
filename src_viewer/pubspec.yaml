@@ -37,6 +37,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   csv: ^5.0.2
   http: ^1.1.0
+  awesome_dialog: ^3.1.0
+  animate_do: ^3.1.2
+  hover_widget: ^0.0.1
+  animate_on_hover: ^1.0.2
 
 dev_dependencies:
   flutter_test:
