@@ -99,13 +99,32 @@ class LessonEntryDetailWidget extends StatelessWidget {
               fontSize: 25
             ),
           ),
-          Text(
-            "by ${entry.contributorName}\t(${entry.contributorEmail})",
-            style: TextStyle(
-              fontWeight: FontWeight.bold
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "submitted by ",
+              ),
+              Text(
+                "${entry.contributorName}",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+              Text(
+                "\t(${entry.contributorEmail})",
+                style: TextStyle(
+                    fontStyle: FontStyle.italic
+                ),
+              ),
+            ],
           ),
-          Text("       " + entry.description),
+          Text(
+              "       " + entry.description,
+              style: TextStyle(
+                fontSize: 15.5
+              ),
+          ),
           displayTabularFields(context),
         ],
       ),

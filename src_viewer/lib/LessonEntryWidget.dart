@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:animate_on_hover/animate_on_hover.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:src_viewer/LessonEntry.dart';
@@ -52,32 +53,66 @@ class LessonEntryWidget extends StatelessWidget {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              getFadeInDelayWidget(
-                delayMilliSeconds,
-                Text(
-                  entry.activity,
-                  style: Theme.of(context).textTheme.headlineSmall,
+              Expanded(
+                flex: 15,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    getFadeInDelayWidget(
+                      delayMilliSeconds,
+                      Text(
+                        entry.activity,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 25
+                        ),
+                      ),
+                    ),
+                    getFadeInDelayWidget(
+                      delayMilliSeconds,
+                      Text(
+                        "by ${entry.contributorName}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    getFadeInDelayWidget(
+                      delayMilliSeconds,
+                      Text(
+                        "(${entry.contributorEmail})",
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              getFadeInDelayWidget(
-                delayMilliSeconds,
-                Text(
-                  "by ${entry.contributorName}\t(${entry.contributorEmail})",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold
-                  ),
+              Expanded(
+                flex: 90,
+                child: getFadeInDelayWidget(
+                    delayMilliSeconds,
+                    IgnorePointer(
+                      child: AnimatedTextKit(
+                        animatedTexts: [
+                          TyperAnimatedText(''),
+                          TyperAnimatedText('          ' + entry.description, speed: Duration(milliseconds: 5), textStyle: TextStyle(fontSize: 15.5)),
+                        ],
+                        pause: Duration(seconds: 1),
+                        repeatForever: false,
+                        totalRepeatCount: 1,
+                      ),
+                    )
                 ),
-              ),
-              getFadeInDelayWidget(
-                delayMilliSeconds,
-                Text(entry.description, overflow: TextOverflow.ellipsis,)
-              ),
+              )
             ],
           ),
         ),
-      ).increaseSizeOnHover(1.05, duration: Duration(milliseconds: 150)),
+      ).increaseSizeOnHover(1.03, duration: Duration(milliseconds: 150)),
     );
   }
 }

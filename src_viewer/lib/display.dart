@@ -1,3 +1,4 @@
+import 'package:anim_search_app_bar/anim_search_app_bar.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -83,31 +84,26 @@ class _DisplayPageState extends State<DisplayPage> {
     int currentDelay = 0;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text(
-            "Socially Responsible Computing Curriculum Viewer",
-            style: TextStyle(
-              color: Colors.white
-            ),
-        ),
-      ),
       body: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(labelText: "Query"),
-                  controller: filterQuery,
-                  onChanged: (String entry) {
-                    setState(() {
+          AnimSearchAppBar(
+            cancelButtonText: "Cancel",
+            hintText: 'Search for a specific assignment with a keyword',
+            cSearch: filterQuery,
+            onChanged: (String entry) {
+              setState(() {
 
-                    });
-                  },
-                )
+              });
+            },
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).primaryColor,
+              title: Text(
+                "Socially Responsible Computing Curriculum Viewer",
+                style: TextStyle(
+                    color: Colors.white
+                ),
               ),
-            ],
+            ),
           ),
           Expanded(
             child: FutureBuilder(
