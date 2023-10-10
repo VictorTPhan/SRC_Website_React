@@ -72,10 +72,6 @@ class LessonEntryWidget extends StatelessWidget {
               ),
               getFadeInDelayWidget(
                 delayMilliSeconds,
-                Text(entry.csTopic, overflow: TextOverflow.ellipsis,)
-              ),
-              getFadeInDelayWidget(
-                delayMilliSeconds,
                 Text(entry.description, overflow: TextOverflow.ellipsis,)
               ),
             ],

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:html' as html;
 import 'package:csv/csv.dart';
 import 'package:src_viewer/LessonEntry.dart';
-import 'package:src_viewer/LessonEntryLabel.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:src_viewer/LessonEntryWidget.dart';
 
 class DisplayPage extends StatefulWidget {
@@ -142,7 +142,9 @@ class _DisplayPageState extends State<DisplayPage> {
                     return const Text("Error loading data");
                   }
                 } else { // Loading data
-                  return const Text("loading...");
+                  return Center(
+                    child: LoadingAnimationWidget.staggeredDotsWave(color: Colors.black, size: 75),
+                  );
                 }
               },
             ),

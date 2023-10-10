@@ -1,6 +1,9 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
+import 'package:intl/intl.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:src_viewer/LessonEntry.dart';
 
 import 'LessonEntryLabel.dart';
@@ -11,24 +14,27 @@ class LessonEntryDetailWidget extends StatelessWidget {
   LessonEntryDetailWidget({super.key, required this.entry});
 
   Widget displayTabularFields(BuildContext context) {
+    DateFormat dateFormat = DateFormat("MM/dd/yyyy HH:mm:ss");
+    DateTime timestamp = dateFormat.parse(entry.timeStamp);
+
     Map<String, dynamic> info = {
-      LessonEntryLabel.timeStamp: entry.timeStamp,
-      LessonEntryLabel.type: entry.type,
-      LessonEntryLabel.series: entry.series,
-      LessonEntryLabel.courseLevel: entry.courseLevel,
-      LessonEntryLabel.csTopic: entry.csTopic,
-      LessonEntryLabel.programmingLanguage: entry.programmingLanguage,
-      LessonEntryLabel.societalFactor: entry.societalFactor,
-      LessonEntryLabel.learningObjectives: entry.learningObjectives,
-      LessonEntryLabel.preReading: entry.preReading,
-      LessonEntryLabel.suggestedReadingMaterials: entry.suggestedReadingMaterials,
-      LessonEntryLabel.prereqKnowledge: entry.prereqKnowledge,
-      LessonEntryLabel.criticalComponents: entry.criticalComponents,
-      LessonEntryLabel.timelimeOfActivities: entry.timelimeOfActivities,
-      LessonEntryLabel.reflectionActivities: entry.reflectionActivities,
-      LessonEntryLabel.effectiveTeachingMethods: entry.effectiveTeachingMethods,
-      LessonEntryLabel.issuesAndSolutions: entry.issuesAndSolutions,
-      LessonEntryLabel.referencesForInstructor: entry.referencesForInstructor
+      LessonEntryLabel.timeStamp: [LessonEntryLabel.timeStampToolTip, "${timestamp.month}/${timestamp.day}/${timestamp.year}"],
+      LessonEntryLabel.type: [LessonEntryLabel.typeToolTip, entry.type],
+      LessonEntryLabel.series: [LessonEntryLabel.seriesToolTip, entry.series],
+      LessonEntryLabel.courseLevel: [LessonEntryLabel.courseLevelToolTip, entry.courseLevel],
+      LessonEntryLabel.csTopic: [LessonEntryLabel.csTopicToolTip, entry.csTopic],
+      LessonEntryLabel.programmingLanguage: [LessonEntryLabel.programmingLanguageToolTip, entry.programmingLanguage],
+      LessonEntryLabel.societalFactor: [LessonEntryLabel.societalFactorToolTip, entry.societalFactor],
+      LessonEntryLabel.learningObjectives: [LessonEntryLabel.learningObjectivesToolTip, entry.learningObjectives],
+      LessonEntryLabel.preReading: [LessonEntryLabel.prereqKnowledgeToolTip, entry.preReading],
+      LessonEntryLabel.suggestedReadingMaterials: [LessonEntryLabel.suggestedReadingMaterialsToolTip, entry.suggestedReadingMaterials],
+      LessonEntryLabel.prereqKnowledge: [LessonEntryLabel.prereqKnowledgeToolTip, entry.prereqKnowledge],
+      LessonEntryLabel.criticalComponents: [LessonEntryLabel.criticalComponentsToolTip, entry.criticalComponents],
+      LessonEntryLabel.timelimeOfActivities: [LessonEntryLabel.timelimeOfActivitiesToolTip, entry.timelimeOfActivities],
+      LessonEntryLabel.reflectionActivities: [LessonEntryLabel.reflectionActivitiesToolTip, entry.reflectionActivities],
+      LessonEntryLabel.effectiveTeachingMethods: [LessonEntryLabel.effectiveTeachingMethodsToolTip, entry.effectiveTeachingMethods],
+      LessonEntryLabel.issuesAndSolutions: [LessonEntryLabel.issuesAndSolutionsToolTip, entry.issuesAndSolutions],
+      LessonEntryLabel.referencesForInstructor: [LessonEntryLabel.referencesForInstructorToolTip, entry.referencesForInstructor]
     };
 
     List<DataRow> rows = [];
@@ -39,7 +45,23 @@ class LessonEntryDetailWidget extends StatelessWidget {
         DataCell(
             FadeInLeft(
                 delay: Duration(milliseconds: currentDelay),
-                child: Text(label, style: TextStyle(fontWeight: FontWeight.bold))
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: JustTheTooltip(
+                    backgroundColor: Color(0xFF333333),
+                    content: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                          info[label][0],
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white
+                          ),
+                      ),
+                    ),
+                    child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                )
             )
         ),
         DataCell(
@@ -47,7 +69,7 @@ class LessonEntryDetailWidget extends StatelessWidget {
                 delay: Duration(milliseconds: currentDelay),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(info[label]),
+                  child: Text(info[label][1]),
                 ),
             )
         )
@@ -83,9 +105,7 @@ class LessonEntryDetailWidget extends StatelessWidget {
               fontWeight: FontWeight.bold
             ),
           ),
-          Text(
-            entry.description,
-          ),
+          Text("       " + entry.description),
           displayTabularFields(context),
         ],
       ),
