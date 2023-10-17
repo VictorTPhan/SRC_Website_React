@@ -1,5 +1,6 @@
 import 'package:src_viewer/classes/SubmissionField.dart';
 
+String password = "SRCManagement!01";
 String formFetchURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTv4rXDj1e1ZzFjVvLvVglwOjcB8VxbszsBwIboQMTCJZPMgEYGsjKt5OqGa6tDyZyFATMcvol7rCZH/pub?gid=2127720475&single=true&output=csv";
 String formURL = "https://docs.google.com/forms/d/e/1FAIpQLSfAN2FaAys-0DZd4W-a8y5M3V8r32NY7zg9ms7pBsv8oWfFQg/viewform";
 List<String> formFields = [
@@ -39,6 +40,7 @@ List<String> fieldsToShowInTable = [
 
 Map<String, SubmissionField> generateFields(Map<String, dynamic> map) {
   return {
+    "Approved": SubmissionField(value: map['Approved'], desc: "Whether or not this curriculum is approved to be viewed and downloaded."),
     "Upload Date": SubmissionField(value: map['Timestamp'], desc: 'The time that this assignment was uploaded.'),
     "Activity": SubmissionField(value: map['Activity title'], desc: 'The name of the lesson.'),
     "Contributor": SubmissionField(value: map['Contributor Name'], desc: 'The name of the assignment creator.'),

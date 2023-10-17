@@ -1,30 +1,25 @@
 import 'package:anim_search_app_bar/anim_search_app_bar.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:floating_action_bubble/floating_action_bubble.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:html' as html;
-import 'package:csv/csv.dart';
-import 'package:src_viewer/classes/LessonEntry.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:src_viewer/screens/publish.dart';
-import 'package:src_viewer/widgets/LessonEntryWidget.dart';
-import 'package:src_viewer/misc.dart';
+import 'dart:html' as html;
 
-import '../widgets/PasswordEntryModal.dart';
+import '../classes/LessonEntry.dart';
+import '../misc.dart';
+import '../widgets/LessonEntryWidget.dart';
 
-class DisplayPage extends StatefulWidget {
-  const DisplayPage({super.key});
+class PublishingPage extends StatefulWidget {
+  const PublishingPage({super.key});
 
   @override
-  State<DisplayPage> createState() => _DisplayPageState();
+  State<PublishingPage> createState() => _PublishingPageState();
 }
 
-class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStateMixin {
+class _PublishingPageState extends State<PublishingPage> {
   var fetchResponse;
   TextEditingController filterQuery = TextEditingController();
-  var _animation;
-  var _animationController;
 
   Future<String> _fetchSubmissions() async {
     String url = formFetchURL;
@@ -49,7 +44,7 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
         map[labels[j]] = rows[i][j];
       }
       LessonEntry entry = LessonEntry.fromMap(map);
-      if (entry.getSubmissionField("Approved").value.isNotEmpty) {
+      if (entry.getSubmissionField("Approved").value.isEmpty) {
         output.add(LessonEntry.fromMap(map));
       }
     }
@@ -61,16 +56,6 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
   void initState() {
     super.initState();
     fetchResponse = _fetchSubmissions();
-
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 260),
-    );
-
-    final curvedAnimation = CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
-    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
-
-    super.initState();
   }
 
   @override
@@ -93,7 +78,7 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
             appBar: AppBar(
               backgroundColor: Theme.of(context).primaryColor,
               title: Text(
-                "Socially Responsible Computing Curriculum Viewer",
+                "Approve Submitted Material",
                 style: TextStyle(
                     color: Colors.white
                 ),
@@ -110,10 +95,10 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
                     List<LessonEntry> entries = parseResponse(responseBody);
                     if (entries.isEmpty) {
                       return Text(
-                        "There are no published materials available at the moment.",
+                        "There are no submitted materials available at the moment.",
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
                         ),
                       );
                     }
@@ -151,46 +136,13 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
           ),
         ],
       ),
-      floatingActionButton: FloatingActionBubble(
-        // Menu items
-        items: <Bubble>[
-
-          // Floating action menu item
-          Bubble(
-            title: "Submit Material",
-            iconColor: Colors.white,
-            bubbleColor: Theme.of(context).primaryColor,
-            icon:Icons.add,
-            titleStyle: TextStyle(fontSize: 16 , color: Colors.white),
-            onPress: () {
-              String url = formURL;
-              html.window.open(url, "Submission Form");
-
-              _animationController.reverse();
-            },
-          ),
-          Bubble(
-            title:"Approve Material",
-            iconColor: Colors.white,
-            bubbleColor: Theme.of(context).primaryColor,
-            icon:Icons.people,
-            titleStyle:TextStyle(fontSize: 16 , color: Colors.white),
-            onPress: () {
-              createPasswordEntryModal(context, TextEditingController());
-
-              _animationController.reverse();
-            },
-          ),
-        ],
-
-        animation: _animation,
-        onPress: () => _animationController.isCompleted
-            ? _animationController.reverse()
-            : _animationController.forward(),
-        iconColor: Colors.white,
-        iconData: Icons.settings,
-        backGroundColor: Theme.of(context).primaryColor,
-      )
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          String url = formURL;
+          html.window.open(url, "Submission Form");
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
