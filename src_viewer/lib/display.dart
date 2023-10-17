@@ -7,6 +7,7 @@ import 'package:csv/csv.dart';
 import 'package:src_viewer/LessonEntry.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:src_viewer/LessonEntryWidget.dart';
+import 'package:src_viewer/misc.dart';
 
 class DisplayPage extends StatefulWidget {
   const DisplayPage({super.key});
@@ -20,8 +21,7 @@ class _DisplayPageState extends State<DisplayPage> {
   TextEditingController filterQuery = TextEditingController();
 
   Future<String> _fetchSubmissions() async {
-    print("got called");
-    String url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRfDhofSMr57svLWEdt_bjPXOAk1-1-A0duXVI-Iw9MTCsJi8S9PIsGz-qI9qrSWPkFSsYODmfXwwwV/pub?output=csv";
+    String url = formFetchURL;
 
     final response = await http.get(Uri.parse(url));
     return response.body;
@@ -35,30 +35,7 @@ class _DisplayPageState extends State<DisplayPage> {
     rows.removeAt(0);
 
     //I would have used the header row, but Google automatically changes it whenever a new update is made.
-    List labels = [
-      'timeStamp',
-      'activity',
-      'contributorEmail',
-      'contributorName',
-      'description',
-      'type',
-      'series',
-      'societalFactor',
-      'courseLevel',
-      'csTopic',
-      'programmingLanguage',
-      'prereqKnowledge',
-      'criticalComponents',
-      'learningObjectives',
-      'preReading',
-      'timelimeOfActivities',
-      'reflectionActivities',
-      'effectiveTeachingMethods',
-      'suggestedReadingMaterials',
-      'issuesAndSolutions',
-      'referencesForInstructor',
-      'fileSubmission'
-    ];
+    List labels = formFields;
 
     for (int i = 0; i<rows.length; i++) {
       var map = Map<String, dynamic>();
@@ -149,7 +126,7 @@ class _DisplayPageState extends State<DisplayPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          String url = "https://docs.google.com/forms/d/e/1FAIpQLSdS6PVD6G4Ovbw4SunQWrcZ4YF1twxHVGmfvf4HLWOt0SaAQA/viewform";
+          String url = formURL;
           html.window.open(url, "Submission Form");
         },
         child: Icon(Icons.add),

@@ -4,7 +4,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:src_viewer/LessonEntry.dart';
-import 'package:src_viewer/LessonEntryDetailWidget.dart';
+import 'package:src_viewer/LessonEntryModal.dart';
 import 'dart:html' as html;
 
 class LessonEntryWidget extends StatelessWidget {
@@ -29,26 +29,7 @@ class LessonEntryWidget extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        AwesomeDialog(
-          context: context,
-          animType: AnimType.leftSlide,
-          dialogType: DialogType.noHeader,
-          body: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: LessonEntryDetailWidget(entry: entry),
-          ),
-          btnOkText: "Download",
-          btnOkIcon: Icons.download,
-          btnOkOnPress: () {
-            html.window.open(entry.fileSubmission, "Download");
-          },
-          btnCancelText: "Back",
-          btnCancelColor: Colors.grey,
-          btnCancelIcon: Icons.arrow_back,
-          btnCancelOnPress: () {
-
-          }
-        ).show();
+        createLessonEntryModal(entry, context);
       },
       child: Card(
         child: Padding(
@@ -64,7 +45,7 @@ class LessonEntryWidget extends StatelessWidget {
                     getFadeInDelayWidget(
                       delayMilliSeconds,
                       Text(
-                        entry.activity,
+                        entry.getSubmissionField("Activity").value,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 25
@@ -74,7 +55,7 @@ class LessonEntryWidget extends StatelessWidget {
                     getFadeInDelayWidget(
                       delayMilliSeconds,
                       Text(
-                        "by ${entry.contributorName}",
+                        entry.getSubmissionField("Contributor").value,
                         style: TextStyle(
                             fontWeight: FontWeight.bold
                         ),
@@ -83,7 +64,7 @@ class LessonEntryWidget extends StatelessWidget {
                     getFadeInDelayWidget(
                       delayMilliSeconds,
                       Text(
-                        "(${entry.contributorEmail})",
+                        entry.getSubmissionField("Contributor Email").value,
                         style: TextStyle(
                           fontStyle: FontStyle.italic
                         ),
@@ -100,7 +81,7 @@ class LessonEntryWidget extends StatelessWidget {
                       child: AnimatedTextKit(
                         animatedTexts: [
                           TyperAnimatedText(''),
-                          TyperAnimatedText('          ' + entry.description, speed: Duration(milliseconds: 5), textStyle: TextStyle(fontSize: 15.5)),
+                          TyperAnimatedText('          ' + entry.getSubmissionField("Description").value, speed: Duration(milliseconds: 5), textStyle: TextStyle(fontSize: 15.5)),
                         ],
                         pause: Duration(seconds: 1),
                         repeatForever: false,
