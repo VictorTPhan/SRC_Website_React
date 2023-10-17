@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:html' as html;
 import 'package:csv/csv.dart';
-import 'package:src_viewer/LessonEntry.dart';
+import 'package:src_viewer/classes/LessonEntry.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:src_viewer/LessonEntryWidget.dart';
+import 'package:src_viewer/widgets/LessonEntryWidget.dart';
 import 'package:src_viewer/misc.dart';
 
 class DisplayPage extends StatefulWidget {

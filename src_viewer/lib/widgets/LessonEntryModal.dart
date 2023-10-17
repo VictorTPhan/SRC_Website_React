@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import 'package:intl/intl.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
-import 'package:src_viewer/LessonEntry.dart';
-import 'package:src_viewer/SubmissionField.dart';
+import 'package:src_viewer/classes/LessonEntry.dart';
+import 'package:src_viewer/classes/SubmissionField.dart';
 
-import 'misc.dart';
+import '../misc.dart';
 
 class LessonEntryModal extends StatelessWidget {
   LessonEntry entry;

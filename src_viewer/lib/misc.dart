@@ -1,8 +1,9 @@
-import 'package:src_viewer/SubmissionField.dart';
+import 'package:src_viewer/classes/SubmissionField.dart';
 
 String formFetchURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTv4rXDj1e1ZzFjVvLvVglwOjcB8VxbszsBwIboQMTCJZPMgEYGsjKt5OqGa6tDyZyFATMcvol7rCZH/pub?gid=2127720475&single=true&output=csv";
 String formURL = "https://docs.google.com/forms/d/e/1FAIpQLSfAN2FaAys-0DZd4W-a8y5M3V8r32NY7zg9ms7pBsv8oWfFQg/viewform";
 List<String> formFields = [
+  "Approved",
   "Timestamp",
   "Activity title",
   "Contributor Name",

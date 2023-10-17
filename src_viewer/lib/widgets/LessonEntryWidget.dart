@@ -3,8 +3,8 @@ import 'package:animate_on_hover/animate_on_hover.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:src_viewer/LessonEntry.dart';
-import 'package:src_viewer/LessonEntryModal.dart';
+import 'package:src_viewer/classes/LessonEntry.dart';
+import 'package:src_viewer/widgets/LessonEntryModal.dart';
 import 'dart:html' as html;
 
 class LessonEntryWidget extends StatelessWidget {

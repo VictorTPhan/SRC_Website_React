@@ -1,6 +1,6 @@
-import 'package:src_viewer/SubmissionField.dart';
+import 'package:src_viewer/classes/SubmissionField.dart';
 
-import 'misc.dart';
+import '../misc.dart';
 
 class LessonEntry {
   Map<String, SubmissionField> fields = {};
