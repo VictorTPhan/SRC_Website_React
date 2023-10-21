@@ -7,11 +7,11 @@ import 'dart:html' as html;
 import 'package:csv/csv.dart';
 import 'package:src_viewer/classes/LessonEntry.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:src_viewer/screens/publish.dart';
+import 'package:src_viewer/classes/SpreadsheetFetcher.dart';
 import 'package:src_viewer/widgets/LessonEntryWidget.dart';
 import 'package:src_viewer/misc.dart';
 
-import '../widgets/PasswordEntryModal.dart';
+import '../modals/PasswordEntryModal.dart';
 
 class DisplayPage extends StatefulWidget {
   const DisplayPage({super.key});
@@ -21,50 +21,20 @@ class DisplayPage extends StatefulWidget {
 }
 
 class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStateMixin {
-  var fetchResponse;
   TextEditingController filterQuery = TextEditingController();
   var _animation;
   var _animationController;
 
-  Future<String> _fetchSubmissions() async {
-    String url = formFetchURL;
-
-    final response = await http.get(Uri.parse(url));
-    return response.body;
-  }
-
-  List<LessonEntry> parseResponse(String responseBody){
-    List<List<dynamic>> rows = CsvToListConverter().convert(responseBody);
-    List<LessonEntry> output = [];
-
-    //remove the header row
-    rows.removeAt(0);
-
-    //I would have used the header row, but Google automatically changes it whenever a new update is made.
-    List labels = formFields;
-
-    for (int i = 0; i<rows.length; i++) {
-      var map = Map<String, dynamic>();
-      for (int j = 0; j<labels.length; j++) {
-        map[labels[j]] = rows[i][j];
-      }
-      LessonEntry entry = LessonEntry.fromMap(map);
-      if (entry.getSubmissionField("Approved").value.isNotEmpty) {
-        output.add(LessonEntry.fromMap(map));
-      }
-    }
-
-    return output;
-  }
+  var fetchResponse;
 
   @override
   void initState() {
     super.initState();
-    fetchResponse = _fetchSubmissions();
+    fetchResponse = SpreadsheetFetcher().fetchSubmissions();
 
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 260),
+      duration: const Duration(milliseconds: 260),
     );
 
     final curvedAnimation = CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
@@ -107,9 +77,9 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
                 if (snapshot.hasData) { // Successfully loaded data
                   String responseBody = snapshot.data!;
                   if (responseBody != null) {
-                    List<LessonEntry> entries = parseResponse(responseBody);
+                    List<LessonEntry> entries = SpreadsheetFetcher().parseResponse(responseBody, true);
                     if (entries.isEmpty) {
-                      return Text(
+                      return const Text(
                         "There are no published materials available at the moment.",
                         style: TextStyle(
                           fontSize: 20,
@@ -122,11 +92,9 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
                       itemBuilder: (BuildContext context, int index) {
                         //can we perform an actual filter?
                         if (filterQuery.text.isNotEmpty && !entries[index].matchesQuery(filterQuery.text)) {
-                          print("Filtered out");
-                          return SizedBox.shrink();
+                          return const SizedBox.shrink();
                         }
                         else {
-                          print("Not filtered out");
                           currentDelay+=delayMilliSeconds;
                           return FadeInLeft(
                               delay: Duration(milliseconds: currentDelay),
@@ -161,7 +129,7 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
             iconColor: Colors.white,
             bubbleColor: Theme.of(context).primaryColor,
             icon:Icons.add,
-            titleStyle: TextStyle(fontSize: 16 , color: Colors.white),
+            titleStyle: const TextStyle(fontSize: 16 , color: Colors.white),
             onPress: () {
               String url = formURL;
               html.window.open(url, "Submission Form");
@@ -174,7 +142,7 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
             iconColor: Colors.white,
             bubbleColor: Theme.of(context).primaryColor,
             icon:Icons.people,
-            titleStyle:TextStyle(fontSize: 16 , color: Colors.white),
+            titleStyle:const TextStyle(fontSize: 16 , color: Colors.white),
             onPress: () {
               createPasswordEntryModal(context, TextEditingController());
 

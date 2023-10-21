@@ -62,11 +62,12 @@ dynamic createPasswordEntryModal(BuildContext context, TextEditingController con
       btnOkIcon: Icons.check,
       btnOkOnPress: () {
         //check if password is correct
-        print(modal.password.text);
         if (modal.password.text == password) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const PublishingPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const PublishingPage())).then((value) {
+            print("I'm back");
+          });
         } else {
-          //try again(?)
+          //try again
           createPasswordEntryModal(context, controller, true);
         }
       },

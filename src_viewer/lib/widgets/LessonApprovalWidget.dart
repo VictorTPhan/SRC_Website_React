@@ -1,30 +1,27 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:animate_on_hover/animate_on_hover.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:src_viewer/classes/LessonEntry.dart';
-import 'dart:html' as html;
+import 'package:src_viewer/modals/LessonApprovalModal.dart';
+import 'package:src_viewer/widgets/LessonEntryWidget.dart';
+import '../classes/LessonEntry.dart';
 
-import '../modals/LessonEntryModal.dart';
+class LessonApprovalWidget extends LessonEntryWidget {
+  LessonApprovalWidget({super.key, required super.entry});
 
-class LessonEntryWidget extends StatelessWidget {
-  LessonEntry entry;
-  LessonEntryWidget({super.key, required this.entry});
-  int currentDelay = 0;
-
-  int increaseCurrentDelay(int byMilliSeconds) {
-    return currentDelay+=byMilliSeconds;
-  }
-
-  Widget getFadeInDelayWidget(int delay, Widget child) {
-    return FadeIn(
-        delay: Duration(milliseconds: increaseCurrentDelay(delay)),
-        child: child
-    );
-  }
-
+  @override
   void onWidgetTapped(LessonEntry entry, BuildContext context) {
-    createLessonEntryModal(entry, context);
+    createLessonApprovalModal(entry, context);
+  }
+
+  Color determineColor() {
+    switch(entry.getSubmissionField("Approved").value) {
+      case "APPROVED":
+        return Color(0xFFC4F5A0);
+      case "DENIED":
+        return Color(0xFFEC9090);
+      default:
+        return Color(0xFFB4B4B4);
+    }
   }
 
   @override
@@ -36,6 +33,7 @@ class LessonEntryWidget extends StatelessWidget {
         onWidgetTapped(entry, context);
       },
       child: Card(
+        color: determineColor(),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
@@ -70,7 +68,7 @@ class LessonEntryWidget extends StatelessWidget {
                       Text(
                         entry.getSubmissionField("Contributor Email").value,
                         style: TextStyle(
-                          fontStyle: FontStyle.italic
+                            fontStyle: FontStyle.italic
                         ),
                       ),
                     ),
@@ -81,16 +79,10 @@ class LessonEntryWidget extends StatelessWidget {
                 flex: 90,
                 child: getFadeInDelayWidget(
                     delayMilliSeconds,
-                    IgnorePointer(
-                      child: AnimatedTextKit(
-                        animatedTexts: [
-                          TyperAnimatedText(''),
-                          TyperAnimatedText('          ' + entry.getSubmissionField("Description").value, speed: Duration(milliseconds: 5), textStyle: TextStyle(fontSize: 15.5)),
-                        ],
-                        pause: Duration(seconds: 1),
-                        repeatForever: false,
-                        totalRepeatCount: 1,
-                      ),
+                    Row(
+                      children: [
+
+                      ],
                     )
                 ),
               )

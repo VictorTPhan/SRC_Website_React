@@ -12,15 +12,10 @@ import '../misc.dart';
 
 class LessonEntryModal extends StatelessWidget {
   LessonEntry entry;
-
   LessonEntryModal({super.key, required this.entry});
+  List<String> info = fieldsToShowInTable;
 
   Widget displayTabularFields(BuildContext context) {
-    DateFormat dateFormat = DateFormat("MM/dd/yyyy HH:mm:ss");
-    DateTime timestamp = dateFormat.parse(entry.fields['Upload Date']!.value);
-
-    List<String> info = fieldsToShowInTable;
-
     List<DataRow> rows = [];
     int delayMilliSeconds = 75;
     int currentDelay = 0;
@@ -94,6 +89,9 @@ class LessonEntryModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateFormat dateFormat = DateFormat("MM/dd/yyyy HH:mm:ss");
+    DateTime timestamp = dateFormat.parse(entry.fields['Upload Date']!.value);
+
     return SelectionArea(
       child: SingleChildScrollView(
         child: Column(
@@ -123,6 +121,12 @@ class LessonEntryModal extends StatelessWidget {
                       fontStyle: FontStyle.italic
                   ),
                 ),
+                Text(
+                  " on "
+                ),
+                Text(
+                  timestamp.toString()
+                )
               ],
             ),
             Text(
