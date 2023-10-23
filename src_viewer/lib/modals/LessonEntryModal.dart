@@ -6,6 +6,7 @@ import 'dart:html' as html;
 import 'package:intl/intl.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:src_viewer/classes/LessonEntry.dart';
+import 'package:src_viewer/classes/RefreshNotifier.dart';
 import 'package:src_viewer/classes/SubmissionField.dart';
 
 import '../misc.dart';
@@ -89,8 +90,8 @@ class LessonEntryModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateFormat dateFormat = DateFormat("MM/dd/yyyy HH:mm:ss");
-    DateTime timestamp = dateFormat.parse(entry.fields['Upload Date']!.value);
+    var dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(entry.fields['Upload Date']!.value));
+    var formattedDate = DateFormat("MM/dd/yyyy HH:mm:ss").format(dateTime);
 
     return SelectionArea(
       child: SingleChildScrollView(
@@ -125,7 +126,7 @@ class LessonEntryModal extends StatelessWidget {
                   " on "
                 ),
                 Text(
-                  timestamp.toString()
+                  formattedDate
                 )
               ],
             ),
@@ -163,5 +164,7 @@ dynamic createLessonEntryModal(LessonEntry entry, BuildContext context) {
       btnCancelOnPress: () {
 
       }
-  ).show();
+  ).show().then((value) {
+    RefreshNotifier().notifyListeners();
+  });
 }

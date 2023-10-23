@@ -6,11 +6,12 @@ import 'package:src_viewer/widgets/LessonEntryWidget.dart';
 import '../classes/LessonEntry.dart';
 
 class LessonApprovalWidget extends LessonEntryWidget {
-  LessonApprovalWidget({super.key, required super.entry});
+  var docRef;
+  LessonApprovalWidget({super.key, required super.entry, required this.docRef});
 
   @override
   void onWidgetTapped(LessonEntry entry, BuildContext context) {
-    createLessonApprovalModal(entry, context);
+    createLessonApprovalModal(entry, docRef, context);
   }
 
   Color determineColor() {

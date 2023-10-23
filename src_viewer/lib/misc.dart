@@ -28,7 +28,7 @@ List<String> formFields = [
 Map<String, SubmissionField> generateFields(Map<String, dynamic> map) {
   return {
     "Approved": SubmissionField(value: map['Approved'], desc: "Whether or not this curriculum is approved to be viewed and downloaded."),
-    "Upload Date": SubmissionField(value: map['Timestamp'], desc: 'The time that this assignment was uploaded.'),
+    "Upload Date": SubmissionField(value: map['Timestamp'].toString(), desc: 'The time that this assignment was uploaded.'),
     "Activity": SubmissionField(value: map['Activity Title'], desc: 'The name of the lesson.'),
     "Contributor": SubmissionField(value: map['Contributor Name'], desc: 'The name of the assignment creator.'),
     "Contributor Email": SubmissionField(value: map['Contributor (email)'], desc: 'The email address of the assignment creator.'),
