@@ -1,5 +1,4 @@
 import 'package:animate_on_hover/animate_on_hover.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';

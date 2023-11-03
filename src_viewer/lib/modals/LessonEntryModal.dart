@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
@@ -76,6 +75,7 @@ class LessonEntryModal extends StatelessWidget {
     switch (field) {
       case "Student Samples":
       case "Instructor's Guide":
+      case "File URL":
         return ElevatedButton(
             onPressed: () {
               String url = value;
@@ -153,11 +153,6 @@ dynamic createLessonEntryModal(LessonEntry entry, BuildContext context) {
         padding: const EdgeInsets.all(15.0),
         child: LessonEntryModal(entry: entry),
       ),
-      btnOkText: "Download",
-      btnOkIcon: Icons.download,
-      btnOkOnPress: () {
-        html.window.open(entry.getSubmissionField("File URL").value, "Download");
-      },
       btnCancelText: "Back",
       btnCancelColor: Colors.grey,
       btnCancelIcon: Icons.arrow_back,

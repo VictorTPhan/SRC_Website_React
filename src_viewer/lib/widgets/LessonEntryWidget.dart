@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:animate_on_hover/animate_on_hover.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:src_viewer/classes/LessonEntry.dart';
 import 'dart:html' as html;
@@ -86,15 +85,10 @@ class LessonEntryWidget extends StatelessWidget {
                 child: getFadeInDelayWidget(
                     delayMilliSeconds,
                     IgnorePointer(
-                      child: AnimatedTextKit(
-                        animatedTexts: [
-                          TyperAnimatedText(''),
-                          TyperAnimatedText('          ${entry.getSubmissionField("Description").value}', speed: Duration(milliseconds: 5), textStyle: TextStyle(fontSize: 15.5)),
-                        ],
-                        pause: const Duration(seconds: 1),
-                        repeatForever: false,
-                        totalRepeatCount: 1,
-                      ),
+                      child: Text(
+                          '          ${entry.getSubmissionField("Description").value}',
+                          style: TextStyle(fontSize: 15.5)
+                      )
                     )
                 ),
               )

@@ -9,12 +9,16 @@ class LessonEntry {
     //nothing happens here
   }
 
-  bool matchesQuery(String query) {
-    String combined = "";
-    for (SubmissionField sF in fields.values) {
-      combined += sF.value;
+  bool matchesQuery(String query, String field) {
+    if (field == "All") {
+      String combined = "";
+      for (SubmissionField sF in fields.values) {
+        combined += sF.value;
+      }
+      return combined.toLowerCase().contains(query.toLowerCase());
+    } else {
+      return getSubmissionField(field).value.toLowerCase().contains(query.toLowerCase());
     }
-    return combined.toLowerCase().contains(query.toLowerCase());
   }
   
   SubmissionField getSubmissionField(String field) {

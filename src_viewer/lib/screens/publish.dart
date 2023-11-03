@@ -2,12 +2,14 @@ import 'package:anim_search_app_bar/anim_search_app_bar.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:src_viewer/classes/RefreshNotifier.dart';
 import 'package:src_viewer/widgets/LessonApprovalWidget.dart';
 
 import '../classes/IRefresh.dart';
 import '../classes/LessonEntry.dart';
+import '../misc.dart';
 
 class PublishingPage extends StatefulWidget {
   const PublishingPage({super.key});
@@ -23,9 +25,6 @@ class _PublishingPageState extends State<PublishingPage> implements IRefresh{
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>?> fetchSubmissions() async {
     Query<Map<String, dynamic>> initialQuery = db.collection("submissions");
-    if (showUnpublishedSubmissions) {
-      initialQuery = db.collection("submissions").where("Approved", isNotEqualTo: "APPROVED");
-    }
     var resultQuery = (await initialQuery.get()).docs;
     if (resultQuery.length == 1) {
       return resultQuery;
@@ -50,9 +49,9 @@ class _PublishingPageState extends State<PublishingPage> implements IRefresh{
   }
 
   void toggleUnpublishedSubmissions() {
-    print("toggling");
     setState(() {
       showUnpublishedSubmissions = !showUnpublishedSubmissions;
+      print("toggling to " + showUnpublishedSubmissions.toString());
     });
   }
 
@@ -63,6 +62,7 @@ class _PublishingPageState extends State<PublishingPage> implements IRefresh{
 
   @override
   Widget build(BuildContext context) {
+    String dropdownValue = fieldsToUseAsFilters.first;
     int delayMilliSeconds = 75;
     int currentDelay = 0;
 
@@ -86,19 +86,63 @@ class _PublishingPageState extends State<PublishingPage> implements IRefresh{
                 backgroundColor: Theme.of(context).primaryColor,
                 title: Row(
                   children: [
-                    Text(
+                    const Text(
                       "Approve Submitted Material",
                       style: TextStyle(
                           color: Colors.white
                       ),
                     ),
                     Padding(
+                      padding: const EdgeInsets.only(left: 15.0, top: 8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: DropdownButton(
+                            value: dropdownValue,
+                            icon: const Icon(Icons.arrow_downward),
+                            elevation: 16,
+                            items: fieldsToUseAsFilters.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(value),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? value) {
+                              setState(() {
+                                dropdownValue = value!;
+                              });
+                            }
+                        ),
+                      ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.only(left: 15.0),
-                      child: IconButton(
-                          onPressed: () {
-                            toggleUnpublishedSubmissions();
-                          },
-                          icon: const Icon(Icons.filter_list_alt)
+                      child: JustTheTooltip(
+                        backgroundColor: Color(0xFF333333),
+                        content: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                              showUnpublishedSubmissions? "Show all submissions": "Show only published submissions",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white
+                              )
+                          ),
+                        ),
+                        child: IconButton(
+                            onPressed: () {
+                              toggleUnpublishedSubmissions();
+                            },
+                            icon: const Icon(
+                                Icons.filter_list_alt,
+                                color: Colors.white
+                            )
+                        ),
                       ),
                     )
                   ],
@@ -126,8 +170,12 @@ class _PublishingPageState extends State<PublishingPage> implements IRefresh{
                         itemBuilder: (BuildContext context, int index) {
                           LessonEntry entry = LessonEntry.fromMap(submissions[index].data());
 
+                          if (showUnpublishedSubmissions && entry.getSubmissionField("Approved").value != "APPROVED") {
+                            return const SizedBox.shrink();
+                          }
+
                           //can we perform an actual filter?
-                          if (filterQuery.text.isNotEmpty && !entry.matchesQuery(filterQuery.text)) {
+                          if (filterQuery.text.isNotEmpty && !entry.matchesQuery(filterQuery.text, dropdownValue)) {
                             return const SizedBox.shrink();
                           }
                           else {

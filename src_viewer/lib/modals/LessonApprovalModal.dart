@@ -24,7 +24,7 @@ class LessonApprovalModal extends LessonEntryModal {
     switch (field) {
       case "Student Samples":
       case "Instructor's Guide":
-      case "File Submission":
+      case "File URL":
         return ElevatedButton(
             onPressed: () {
               String url = value;

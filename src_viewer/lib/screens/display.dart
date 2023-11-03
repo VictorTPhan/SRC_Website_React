@@ -21,6 +21,7 @@ class DisplayPage extends StatefulWidget {
 }
 
 class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStateMixin implements IRefresh{
+  String dropdownValue = fieldsToUseAsFilters.first;
   TextEditingController filterQuery = TextEditingController();
   var _animation;
   var _animationController;
@@ -81,11 +82,43 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
               },
               appBar: AppBar(
                 backgroundColor: Theme.of(context).primaryColor,
-                title: Text(
-                  "Socially Responsible Computing Curriculum Viewer",
-                  style: TextStyle(
-                      color: Colors.white
-                  ),
+                title: Row(
+                  children: [
+                    const Text(
+                      "Socially Responsible Curriculum Viewer",
+                      style: TextStyle(
+                          color: Colors.white
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0, top: 8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: DropdownButton(
+                          value: dropdownValue,
+                          icon: const Icon(Icons.arrow_downward),
+                          elevation: 16,
+                          items: fieldsToUseAsFilters.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(value),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            setState(() {
+                              dropdownValue = value!;
+                            });
+                          }
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -111,7 +144,7 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
                           LessonEntry entry = LessonEntry.fromMap(submissions[index].data());
 
                           //can we perform an actual filter?
-                          if (filterQuery.text.isNotEmpty && !entry.matchesQuery(filterQuery.text)) {
+                          if (filterQuery.text.isNotEmpty && !entry.matchesQuery(filterQuery.text, dropdownValue)) {
                             return const SizedBox.shrink();
                           }
                           else {

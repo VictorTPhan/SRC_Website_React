@@ -60,6 +60,7 @@ List<String> fieldsToShowInTable = [
   "Used Before",
   "Issues and Solutions",
   "References for Instructor",
+  "File URL",
   "Student Samples",
   "Instructor's Guide",
 ];
@@ -75,7 +76,14 @@ List<String> fieldsToShowInTableForPublishing = [
   "Used Before",
   "Issues and Solutions",
   "References for Instructor",
+  "File URL",
   "Student Samples",
   "Instructor's Guide",
-  "File Submission",
+];
+
+List<String> fieldsToUseAsFilters = [
+  "All",
+  "Course Level",
+  "CS Topics",
+  "Learning Objectives"
 ];
