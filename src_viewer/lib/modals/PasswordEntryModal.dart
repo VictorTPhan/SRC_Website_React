@@ -4,17 +4,25 @@ import 'package:flutter/material.dart';
 import '../misc.dart';
 import '../screens/publish.dart';
 
-class PasswordEntryModal extends StatelessWidget {
-  PasswordEntryModal(this.password, [this.passwordFailed = false]);
+class PasswordEntryModal extends StatefulWidget {
+  final TextEditingController password;
+  final bool passwordFailed;
 
-  TextEditingController password;
-  bool passwordFailed;
+  const PasswordEntryModal({super.key, required this.password, required this.passwordFailed});
+
+  @override
+  State<PasswordEntryModal> createState() => _PasswordEntryModalState();
+}
+
+class _PasswordEntryModalState extends State<PasswordEntryModal> {
+  bool showingPassword = false;
 
   @override
   Widget build(BuildContext context) {
     return SelectionArea(
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
               "Password Required",
@@ -26,7 +34,7 @@ class PasswordEntryModal extends StatelessWidget {
             const Text(
               "Password authentication is required in order to access the submitted material approval page.",
             ),
-            if (passwordFailed)
+            if (widget.passwordFailed)
               const Text(
                 "Password failed! Please try again.",
                 style: TextStyle(
@@ -34,12 +42,25 @@ class PasswordEntryModal extends StatelessWidget {
                   color: Colors.red,
                 ),
               ),
-            Container(
-              width: 400,
-              child: TextField(
-                controller: password,
-                obscureText: true,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 400,
+                  child: TextField(
+                    controller: widget.password,
+                    obscureText: !showingPassword,
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        showingPassword = !showingPassword;
+                      });
+                    },
+                    icon: Icon(showingPassword? Icons.visibility_off: Icons.visibility)
+                )
+              ],
             )
           ],
         ),
@@ -48,8 +69,9 @@ class PasswordEntryModal extends StatelessWidget {
   }
 }
 
+
 dynamic createPasswordEntryModal(BuildContext context, TextEditingController controller, [passwordFailed = false]) {
-  var modal = PasswordEntryModal(controller, passwordFailed);
+  var modal = PasswordEntryModal(password: controller, passwordFailed: passwordFailed,);
   return AwesomeDialog(
       context: context,
       animType: AnimType.leftSlide,

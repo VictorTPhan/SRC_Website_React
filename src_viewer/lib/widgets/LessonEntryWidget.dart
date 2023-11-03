@@ -50,7 +50,7 @@ class LessonEntryWidget extends StatelessWidget {
                       delayMilliSeconds,
                       Text(
                         entry.getSubmissionField("Activity").value,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 25
                         ),
@@ -60,7 +60,7 @@ class LessonEntryWidget extends StatelessWidget {
                       delayMilliSeconds,
                       Text(
                         entry.getSubmissionField("Contributor").value,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold
                         ),
                       ),
@@ -69,13 +69,17 @@ class LessonEntryWidget extends StatelessWidget {
                       delayMilliSeconds,
                       Text(
                         entry.getSubmissionField("Contributor Email").value,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontStyle: FontStyle.italic
                         ),
                       ),
                     ),
                   ],
                 ),
+              ),
+              SizedBox.fromSize(
+                size: const Size(15, 15),
+                child: const SizedBox.shrink(),
               ),
               Expanded(
                 flex: 90,
@@ -85,9 +89,9 @@ class LessonEntryWidget extends StatelessWidget {
                       child: AnimatedTextKit(
                         animatedTexts: [
                           TyperAnimatedText(''),
-                          TyperAnimatedText('          ' + entry.getSubmissionField("Description").value, speed: Duration(milliseconds: 5), textStyle: TextStyle(fontSize: 15.5)),
+                          TyperAnimatedText('          ${entry.getSubmissionField("Description").value}', speed: Duration(milliseconds: 5), textStyle: TextStyle(fontSize: 15.5)),
                         ],
-                        pause: Duration(seconds: 1),
+                        pause: const Duration(seconds: 1),
                         repeatForever: false,
                         totalRepeatCount: 1,
                       ),
@@ -97,7 +101,7 @@ class LessonEntryWidget extends StatelessWidget {
             ],
           ),
         ),
-      ).increaseSizeOnHover(1.03, duration: Duration(milliseconds: 150)),
+      ).increaseSizeOnHover(1.03, duration: const Duration(milliseconds: 150)),
     );
   }
 }

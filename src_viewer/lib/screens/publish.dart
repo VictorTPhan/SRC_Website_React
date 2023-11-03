@@ -19,9 +19,20 @@ class PublishingPage extends StatefulWidget {
 class _PublishingPageState extends State<PublishingPage> implements IRefresh{
   TextEditingController filterQuery = TextEditingController();
   final db = FirebaseFirestore.instance;
+  bool showUnpublishedSubmissions = true;
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>?> fetchSubmissions() async {
-    return (await db.collection("submissions").get()).docs;
+    Query<Map<String, dynamic>> initialQuery = db.collection("submissions");
+    if (showUnpublishedSubmissions) {
+      initialQuery = db.collection("submissions").where("Approved", isNotEqualTo: "APPROVED");
+    }
+    var resultQuery = (await initialQuery.get()).docs;
+    if (resultQuery.length == 1) {
+      return resultQuery;
+    } else {
+      initialQuery = initialQuery.orderBy("Timestamp");
+      return (await initialQuery.get()).docs;
+    }
   }
 
   @override
@@ -35,6 +46,13 @@ class _PublishingPageState extends State<PublishingPage> implements IRefresh{
     print("refreshing publishing page");
     setState(() {
 
+    });
+  }
+
+  void toggleUnpublishedSubmissions() {
+    print("toggling");
+    setState(() {
+      showUnpublishedSubmissions = !showUnpublishedSubmissions;
     });
   }
 
@@ -62,16 +80,28 @@ class _PublishingPageState extends State<PublishingPage> implements IRefresh{
               cSearch: filterQuery,
               onChanged: (String entry) {
                 setState(() {
-
                 });
               },
               appBar: AppBar(
                 backgroundColor: Theme.of(context).primaryColor,
-                title: const Text(
-                  "Approve Submitted Material",
-                  style: TextStyle(
-                      color: Colors.white
-                  ),
+                title: Row(
+                  children: [
+                    Text(
+                      "Approve Submitted Material",
+                      style: TextStyle(
+                          color: Colors.white
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: IconButton(
+                          onPressed: () {
+                            toggleUnpublishedSubmissions();
+                          },
+                          icon: const Icon(Icons.filter_list_alt)
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
@@ -105,7 +135,7 @@ class _PublishingPageState extends State<PublishingPage> implements IRefresh{
                             return FadeInLeft(
                                 delay: Duration(milliseconds: currentDelay),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(top: 15, left: 15, right: 1),
+                                  padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                                   child: LessonApprovalWidget(entry: entry, docRef: submissions[index].reference),
                                 )
                             );

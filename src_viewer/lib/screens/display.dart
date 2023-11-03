@@ -119,7 +119,7 @@ class _DisplayPageState extends State<DisplayPage> with SingleTickerProviderStat
                             return FadeInLeft(
                                 delay: Duration(milliseconds: currentDelay),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(top: 15, left: 15, right: 1),
+                                  padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                                   child: LessonEntryWidget(entry: entry),
                                 )
                             );
